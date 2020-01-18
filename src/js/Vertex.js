@@ -1,8 +1,8 @@
 export class Vertex {
     constructor(coordinates, color, normal) {
         this._coordinates = coordinates;
-        this._color = coordinates;
-        this._normal = coordinates;
+        this._color = color;
+        this._normal = normal;
     }
 
     set coordinates(coordinates) {

@@ -44,7 +44,7 @@ export class ShaderProgram {
         this.gl.uniform3f(location, value[0], value[1], value[2]);
     }
 
-    setUniform4f(name, value) {
+    setUniformMat4f(name, value) {
         const location = this.getUniformLocation(name);
         this.gl.uniformMatrix4fv(location, false, value);
     }

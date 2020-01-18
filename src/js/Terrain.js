@@ -13,15 +13,11 @@ export class Terrain {
         this.vertexArray = new VertexArray(gl);
         this.vertexArray.bind();
 
-        debugger;
-
         // initialize vertex and index buffers;
         this.vertexBuffer = new VertexBuffer(gl);
         this.vertexBuffer.init(mesh.vertexData);
         this.indexBuffer = new IndexBuffer(gl);
         this.indexBuffer.init(mesh.indexData);
-
-        debugger;
 
         // initialize the vertex buffer layout
         this.vertexBufferLayout = new VertexBufferLayout(gl);
@@ -48,6 +44,14 @@ export class Terrain {
 
     get material() {
         return this._material;
+    }
+
+    get modelMatrix() {
+        return this._modelMatrix;
+    }
+
+    get numberOfVertices() {
+        return this.indexBuffer.count;
     }
 
     bind() {
