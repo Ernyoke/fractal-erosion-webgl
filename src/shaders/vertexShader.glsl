@@ -13,8 +13,7 @@ uniform mat4 u_View;
 uniform mat4 u_Projection;
 
 void main() {
-//    mat4 u_MVP = u_Projection * u_View * u_Model;
-    mat4 u_MVP = u_Projection * u_View;
+    mat4 u_MVP = u_Projection * u_View * u_Model;
     gl_Position = u_MVP * vec4(position, 1.0);
 
     v_Color = color;

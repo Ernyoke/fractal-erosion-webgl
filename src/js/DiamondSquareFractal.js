@@ -1,7 +1,8 @@
-import {isPowerOf2, randRange} from "./MathHelpers";
 import {Vertex} from "./Vertex";
-import {vec3, vec4} from 'gl-matrix';
 import {Mesh} from "./Mesh";
+
+import {isPowerOf2, randRange} from "./MathHelpers";
+import {vec3, vec4} from 'gl-matrix';
 
 export class DiamondSquareFractal {
     constructor() {
@@ -34,20 +35,17 @@ export class DiamondSquareFractal {
          * s2 . d3. s3
          *
          * */
-        let s0, s1, s2, s3, d0, d1, d2, d3, cn;
-
-        let modNoise = 0.0;
         for (let i = s; i > 1; i /= 2) {
             // reduce the random range at each step
-            modNoise = (randomMax - randomMin) * noise * (i / s);
+            const modNoise = (randomMax - randomMin) * noise * (i / s);
 
             // diamonds
             for (let y = 0; y < s; y += i) {
                 for (let x = 0; x < s; x += i) {
-                    s0 = this.grid[x][y];
-                    s1 = this.grid[x + i][y];
-                    s2 = this.grid[x][y + i];
-                    s3 = this.grid[x + i][y + i];
+                    const s0 = this.grid[x][y];
+                    const s1 = this.grid[x + i][y];
+                    const s2 = this.grid[x][y + i];
+                    const s3 = this.grid[x + i][y + i];
 
                     // cn
                     this.grid[x + (i / 2)][y + (i / 2)] =
@@ -56,17 +54,17 @@ export class DiamondSquareFractal {
             }
             for (let y = 0; y < s; y += i) {
                 for (let x = 0; x < s; x += i) {
-                    s0 = this.grid[x][y];
-                    s1 = this.grid[x + i][y];
-                    s2 = this.grid[x][y + i];
-                    s3 = this.grid[x + i][y + i];
-                    cn = this.grid[x + (i / 2)][y + (i / 2)];
+                    const s0 = this.grid[x][y];
+                    const s1 = this.grid[x + i][y];
+                    const s2 = this.grid[x][y + i];
+                    const s3 = this.grid[x + i][y + i];
+                    const cn = this.grid[x + (i / 2)][y + (i / 2)];
 
-                    d0 = y <= 0 ? (s0 + s1 + cn) / 3.0 : (s0 + s1 + cn + this.grid[x + (i / 2)][y - (i / 2)]) / 4.0;
-                    d1 = x <= 0 ? (s0 + cn + s2) / 3.0 : (s0 + cn + s2 + this.grid[x - (i / 2)][y + (i / 2)]) / 4.0;
-                    d2 = x >= s - i ? (s1 + cn + s3) / 3.0 :
+                    const d0 = y <= 0 ? (s0 + s1 + cn) / 3.0 : (s0 + s1 + cn + this.grid[x + (i / 2)][y - (i / 2)]) / 4.0;
+                    const d1 = x <= 0 ? (s0 + cn + s2) / 3.0 : (s0 + cn + s2 + this.grid[x - (i / 2)][y + (i / 2)]) / 4.0;
+                    const d2 = x >= s - i ? (s1 + cn + s3) / 3.0 :
                         (s1 + cn + s3 + this.grid[x + i + (i / 2)][y + (i / 2)]) / 4.0;
-                    d3 = y >= s - i ? (cn + s2 + s3) / 3.0 :
+                    const d3 = y >= s - i ? (cn + s2 + s3) / 3.0 :
                         (cn + s2 + s3 + this.grid[x + (i / 2)][y + i + (i / 2)]) / 4.0;
 
                     this.grid[x + (i / 2)][y] = d0 + randRange(-modNoise, modNoise);
