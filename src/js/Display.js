@@ -28,9 +28,19 @@ export class Display {
         this.perspective = mat4.perspective(mat4.create(), 70.0, this.canvas.width / this.canvas.height, 0.1, 100.0);
 
         this.renderer = new Renderer(this.gl);
-        this.camera = new Camera(this.gl, vec3.fromValues(0, 0, 1), vec3.fromValues(0, 1, 0), vec3.fromValues(0, 1, 0), -90, 0);
+        this.camera = new Camera(
+            this.gl,
+            vec3.fromValues(0.0, 25.0, 45.0),
+            vec3.fromValues(0.0, 1.0, 0.0),
+            vec3.fromValues(0.0, 1.0, 0.0),
+            -90,
+            -35);
         this.controls = new Controls(this.canvas, this.camera);
-        this.directionalLight = new Light(vec3.fromValues(1.0, 1.0, 1.0), 0.5, vec3.fromValues(2.0, -2.0, -2.0), 0.7);
+        this.directionalLight = new Light(
+            vec3.fromValues(1.0, 1.0, 1.0),
+            0.5,
+            vec3.fromValues(2.0, -2.0, -2.0),
+            0.7);
 
         this.fractal = new DiamondSquareFractal();
         this.fractal.generateGrid(Math.pow(2, this.gridSize) + 1, this.seed, this.roughness / 5.0);

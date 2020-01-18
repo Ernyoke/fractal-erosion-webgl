@@ -8,8 +8,8 @@ export class Mesh {
         const data = [];
         for (const element of this.vertices) {
             data.push(...element.coordinates);
-            data.push(...element.normal);
             data.push(...element.color);
+            data.push(...element.normal);
         }
         return data;
     }

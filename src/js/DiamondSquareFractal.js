@@ -1,7 +1,8 @@
 import {Vertex} from "./Vertex";
 import {Mesh} from "./Mesh";
+import {getTerrainColorForHeight} from "./MaterialHelper";
 
-import {isPowerOf2, randRange} from "./MathHelpers";
+import {isPowerOf2, randRange, minMax} from "./MathHelpers";
 import {vec3, vec4} from 'gl-matrix';
 
 export class DiamondSquareFractal {
@@ -159,5 +160,9 @@ export class DiamondSquareFractal {
     }
 
     computeTextureColors(vertices) {
+        const minmax = minMax(vertices, (a, b) => a.coordinates[1] - b.coordinates[1]);
+        for (const vertex of vertices) {
+            vertex.color = getTerrainColorForHeight(vertex.coordinates[1], minmax.min.coordinates[1], minmax.max.coordinates[1]);
+        }
     }
 }
