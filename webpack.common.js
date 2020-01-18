@@ -14,8 +14,8 @@ module.exports = {
     },
     entry: ['./src/js/index.js'],
     output: {
+        filename: '[name].bundle-[hash]-[id].js',
         path: path.resolve(__dirname, 'dist'),
-        filename: 'bundle.js'
     },
     optimization: {
         minimizer: [new UglifyJsPlugin({

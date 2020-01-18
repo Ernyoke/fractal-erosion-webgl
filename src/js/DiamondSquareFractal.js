@@ -1,29 +1,29 @@
 import {isPowerOf2, randRange} from "./MathHelpers";
 import {Vertex} from "./Vertex";
 import {vec3, vec4} from 'gl-matrix';
+import {Mesh} from "./Mesh";
 
 export class DiamondSquareFractal {
-    constructor(gridSize) {
-        this.gridSize = gridSize;
+    constructor() {
         this.grid = [[]];
     }
 
     generateMesh() {
-        const vertices = this.#computeVertices();
-        const indices = this.#computeIndices();
-        this.#computeNormals(vertices, indices);
-        computeTextureColors(vertices);
+        const vertices = this.computeVertices();
+        const indices = this.computeIndices();
+        this.computeNormals(vertices, indices);
+        this.computeTextureColors(vertices);
 
-        return {vertices, indices};
+        return new Mesh(vertices, indices);
     }
 
-    generateGrid(gridSize, seed, noise, randomMin, randomMax) {
+    generateGrid(gridSize, seed, noise, randomMin = 0.0, randomMax = 40.0) {
         this.gridSize = gridSize;
         const s = gridSize - 1;
         if (!isPowerOf2(s) || randomMin >= randomMax) {
             return;
         }
-        this.grid = this.#createGrid(0);
+        this.grid = this.createGrid(0);
         /*
          * Use temporary named variables to simplify equations
          *
@@ -78,16 +78,18 @@ export class DiamondSquareFractal {
         }
     }
 
-    #createGrid(defaultValue) {
+    createGrid(defaultValue) {
+        let grid = [];
         for (let i = 0; i < this.gridSize; i++) {
-            this.grid[i] = [];
+            grid[i] = [];
             for (let j = 0; j < this.gridSize; j++) {
-                this.grid[i][j] = defaultValue;
+                grid[i][j] = defaultValue;
             }
         }
+        return grid;
     }
 
-    #computeVertices() {
+    computeVertices() {
         const vertices = [];
         for (let y = 0; y < this.gridSize; y++) {
             for (let x = 0; x < this.gridSize; x++) {
@@ -105,7 +107,7 @@ export class DiamondSquareFractal {
         return vertices;
     }
 
-    #computeIndices() {
+    computeIndices() {
         const indices = [];
         for (let y = 0; y < this.gridSize - 1; y++) {
             for (let x = 0; x < this.gridSize - 1; x++) {
@@ -133,28 +135,31 @@ export class DiamondSquareFractal {
         return indices;
     }
 
-    #computeNormals(vertices, indices) {
+    computeNormals(vertices, indices) {
         for (let i = 0; i < indices.length; i += 3) {
             const index0 = indices[i];
             const index1 = indices[i + 1];
             const index2 = indices[i + 2];
 
-             const vertex0 = vertices[index0];
-             const vertex1 = vertices[index1];
-             const vertex2 = vertices[index2];
+            const vertex0 = vertices[index0];
+            const vertex1 = vertices[index1];
+            const vertex2 = vertices[index2];
 
-             const v0 = vec3.min(vec3.create(), vertex0.coordinates, vertex1.coordinates);
-             const v1 = vec3.min(vec3.create(), vertex0.coordinates, vertex2.coordinates);
+            const v0 = vec3.min(vec3.create(), vertex0.coordinates, vertex1.coordinates);
+            const v1 = vec3.min(vec3.create(), vertex0.coordinates, vertex2.coordinates);
 
-             const normal = vec3.normalize(vec3.create(), vec3.cross(vec3.create(), v0, v1));
+            const normal = vec3.normalize(vec3.create(), vec3.cross(vec3.create(), v0, v1));
 
-            vertex0.normal += normal;
-            vertex1.normal += normal;
-            vertex2.normal += normal;
+            vec3.add(vertex0.normal, vertex0.normal, normal);
+            vec3.add(vertex1.normal, vertex0.normal, normal);
+            vec3.add(vertex2.normal, vertex0.normal, normal);
         }
 
-        for (Vertex &vertex: *vertices) {
-            vertex.normal = glm::normalize(vertex.normal);
+        for (const vertex of vertices) {
+            vec3.normalize(vertex.normal, vertex.normal);
         }
+    }
+
+    computeTextureColors(vertices) {
     }
 }

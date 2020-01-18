@@ -16,6 +16,7 @@ import vertexShader from "../shaders/vertexShader.glsl";
 import '../css/main.scss';
 import {Material} from "./Material";
 import {Light} from "./Light";
+import {Display} from "./Display";
 
 const ready = (fn) => {
     if (document.readyState !== "loading") {
@@ -55,6 +56,9 @@ ready(() => {
             this.perspective = mat4.perspective(mat4.create(), 70.0, this.width / this.height, 0.1, 100.0);
 
             this.controls = new Controls(this.canvas, this.camera);
+
+            this.display = new Display(this.gl);
+            this.display.initialize();
 
             this.vertexArray = new VertexArray(this.gl);
             this.vertexBuffer = new VertexBuffer(this.gl);
