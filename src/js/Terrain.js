@@ -36,7 +36,7 @@ export class Terrain {
 
         this._modelMatrix = mat4.create();
         this._rotationAngle = rotationAngle;
-        this._rotationSpeed = 0.01;
+        this._rotationSpeed = 0.05;
         this._material = new Material(0.5, 32.0);
 
         this.applyRotation();
@@ -60,9 +60,9 @@ export class Terrain {
     }
 
     rotate(xChange) {
-        this.rotation_angle = xChange * this._rotationSpeed;
-        if (Math.abs(this.rotation_angle) > Math.PI * 2) {
-            this.rotation_angle = 0.0;
+        this._rotationAngle += xChange * this._rotationSpeed;
+        if (Math.abs(this._rotationAngle) > Math.PI * 2) {
+            this._rotationAngle = 0.0;
         }
         this.applyRotation();
     }

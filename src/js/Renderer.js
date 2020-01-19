@@ -12,6 +12,8 @@ export class Renderer {
         shaderProgram.bind();
         terrain.bind();
 
+        this.gl.enable(this.gl.DEPTH_TEST);
+        this.gl.depthFunc(this.gl.LEQUAL);
         this.gl.drawElements(this.gl.TRIANGLES, terrain.numberOfVertices, this.gl.UNSIGNED_INT, 0);
     }
 }

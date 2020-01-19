@@ -144,14 +144,14 @@ export class DiamondSquareFractal {
             const vertex1 = vertices[index1];
             const vertex2 = vertices[index2];
 
-            const v0 = vec3.min(vec3.create(), vertex0.coordinates, vertex1.coordinates);
-            const v1 = vec3.min(vec3.create(), vertex0.coordinates, vertex2.coordinates);
+            const v0 = vec3.subtract(vec3.create(), vertex0.coordinates, vertex1.coordinates);
+            const v1 = vec3.subtract(vec3.create(), vertex0.coordinates, vertex2.coordinates);
 
             const normal = vec3.normalize(vec3.create(), vec3.cross(vec3.create(), v0, v1));
 
             vec3.add(vertex0.normal, vertex0.normal, normal);
-            vec3.add(vertex1.normal, vertex0.normal, normal);
-            vec3.add(vertex2.normal, vertex0.normal, normal);
+            vec3.add(vertex1.normal, vertex1.normal, normal);
+            vec3.add(vertex2.normal, vertex2.normal, normal);
         }
 
         for (const vertex of vertices) {

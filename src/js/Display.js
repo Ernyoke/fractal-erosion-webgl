@@ -35,12 +35,11 @@ export class Display {
             vec3.fromValues(0.0, 1.0, 0.0),
             -90,
             -35);
-        this.controls = new Controls(this.canvas, this.camera);
         this.directionalLight = new Light(
             vec3.fromValues(1.0, 1.0, 1.0),
-            0.5,
-            vec3.fromValues(2.0, -2.0, -2.0),
-            0.7);
+            0.6,
+            vec3.fromValues(1.0, -2.0, -2.0),
+            0.5);
 
         this.fractal = new DiamondSquareFractal();
         this.fractal.generateGrid(Math.pow(2, this.gridSize) + 1, this.seed, this.roughness / 5.0);
@@ -52,6 +51,7 @@ export class Display {
         const mesh = this.fractal.generateMesh();
         const rotationAngle = this.terrain ? this.terrain.rotationAngle : 0.0;
         this.terrain = new Terrain(this.gl, mesh, rotationAngle);
+        this.controls = new Controls(this.canvas, this.camera, this.terrain);
     }
 
     initShaderProgram() {
@@ -66,13 +66,13 @@ export class Display {
 
     update(delta) {
         this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
-        this.gl.enable(this.gl.DEPTH_TEST);
         this.controls.deltaTime = delta;
         this.directionalLight.useLight(this.shaderProgram);
         this.terrain.material.useMaterial(this.shaderProgram);
         this.renderer.clear();
         this.shaderProgram.setUniformMat4f("u_Model", this.terrain.modelMatrix);
         this.shaderProgram.setUniformMat4f("u_View", this.camera.calculateViewMatrix());
+        // console.log(this.camera.calculateViewMatrix());
         this.shaderProgram.setUniformMat4f("u_Projection", this.perspective);
         this.shaderProgram.setUniform3f("u_EyePosition", this.camera.position);
         this.renderer.draw(this.terrain, this.shaderProgram);

@@ -1,21 +1,38 @@
 export class Controls {
-    constructor(domElement, camera) {
+    constructor(domElement, camera, terrain) {
+        domElement.setAttribute('tabindex', '0');
+        domElement.focus();
         if (domElement) {
-            const self = this;
-            domElement.addEventListener('mousedown', (event) => {this.onMouseDown(event)}, false);
-            domElement.addEventListener('mouseup', (event) => {this.onMouseUp(event)}, false);
-            domElement.addEventListener('mousemove', (event) => {this.onMouseMove(event)}, false);
-            domElement.addEventListener('wheel', (event) => {this.onMouseScroll(event)}, false);
+            domElement.addEventListener("mousedown", event => {
+                this.onMouseDown(event);
+            }, false);
+            domElement.addEventListener("mouseup", event => {
+                this.onMouseUp(event);
+            }, false);
+            domElement.addEventListener("mousemove", event => {
+                this.onMouseMove(event);
+            }, false);
+            domElement.addEventListener("wheel", event => {
+                this.onMouseScroll(event);
+            }, false);
+            domElement.addEventListener("keypress", event => {
+                this.onKeyDow(event);
+            }, false);
+            domElement.addEventListener("keyup", event => {
+                this.onKeyUp(event);
+            }, false);
         }
 
         this.camera = camera;
+        this.terrain = terrain;
 
         this.lastX = 0.0;
         this.lastY = 0.0;
         this.xChange = 0.0;
         this.yChange = 0.0;
         this.mouseFirstMoved = true;
-        this.mouseButtonPressed = [false, false, false, false, false, false, false, false];
+        this.mouseButtonPressed = Array(16).fill(false);
+        this.keyPressed = Array(1024).fill(false);
 
         this._deltaTime = 0;
     }
@@ -57,5 +74,18 @@ export class Controls {
                 this.camera.moveBackward(this._deltaTime);
             }
         }
+    }
+
+    onKeyDow(event) {
+        if (event.keyCode == 65 || event.keyCode == 97) {
+            this.terrain.rotate(-1);
+        }
+        if (event.keyCode == 68 || event.keyCode == 100) {
+            this.terrain.rotate(1);
+        }
+    }
+
+    onKeyUp(event) {
+        this.keyPressed[event.keyCode] = false;
     }
 }
