@@ -1,3 +1,5 @@
+'use strict';
+
 export class ShaderProgram {
     constructor(gl, vertexShader, fragmentShader) {
         this.gl = gl;

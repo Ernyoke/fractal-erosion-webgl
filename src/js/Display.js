@@ -1,3 +1,5 @@
+'use strict';
+
 import {DiamondSquareFractal} from "./DiamondSquareFractal";
 import {Terrain} from "./Terrain";
 import {Shader} from "./Shader";

@@ -1,3 +1,5 @@
+'use strict';
+
 export class VertexBuffer {
     constructor(gl) {
         this.gl = gl;

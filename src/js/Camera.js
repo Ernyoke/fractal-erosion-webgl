@@ -1,3 +1,5 @@
+'use strict';
+
 import {vec3, mat4} from 'gl-matrix';
 import {radians} from "./MathHelpers";
 

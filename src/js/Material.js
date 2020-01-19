@@ -1,3 +1,5 @@
+'use strict';
+
 export class Material {
     constructor(specularIntensity, shininess) {
         this.specularIntensity = specularIntensity;

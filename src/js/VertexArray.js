@@ -1,3 +1,5 @@
+'use strict';
+
 export class VertexArray {
     constructor(gl) {
         this.gl = gl;

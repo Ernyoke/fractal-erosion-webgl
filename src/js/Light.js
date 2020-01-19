@@ -1,3 +1,5 @@
+'use strict';
+
 export class Light {
     constructor(color, ambientIntensity, direction, diffuseIntensity) {
         this.color = color;

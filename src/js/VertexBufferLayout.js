@@ -1,3 +1,5 @@
+'use strict';
+
 import {VertexBufferLayoutElement} from "./VertexBufferLayoutElement";
 
 export class VertexBufferLayout {

@@ -1,3 +1,5 @@
+'use strict';
+
 export class Renderer {
     constructor(gl) {
         this.gl = gl;

@@ -1,3 +1,5 @@
+'use strict';
+
 export class Mesh {
     constructor(vertices, indices) {
         this.vertices = vertices;

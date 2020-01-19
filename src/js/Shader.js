@@ -1,3 +1,5 @@
+'use strict';
+
 export class Shader {
     constructor(gl, source, shaderType) {
         this.gl = gl;

@@ -1,3 +1,5 @@
+'use strict';
+
 import {Vertex} from "./Vertex";
 import {Mesh} from "./Mesh";
 import {getTerrainColorForHeight} from "./MaterialHelper";

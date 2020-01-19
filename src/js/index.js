@@ -1,3 +1,5 @@
+'use strict';
+
 import '../css/main.scss';
 import {Display} from "./Display";
 

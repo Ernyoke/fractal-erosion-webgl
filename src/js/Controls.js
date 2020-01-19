@@ -1,3 +1,5 @@
+'use strict';
+
 export class Controls {
     constructor(domElement, camera, terrain) {
         domElement.setAttribute('tabindex', '0');

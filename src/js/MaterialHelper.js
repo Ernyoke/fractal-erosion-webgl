@@ -1,3 +1,5 @@
+'use strict';
+
 import {vec4} from "gl-matrix";
 import {normalize} from "./MathHelpers";
 

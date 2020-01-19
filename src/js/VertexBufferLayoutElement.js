@@ -1,3 +1,5 @@
+'use strict';
+
 export class VertexBufferLayoutElement {
     constructor(gl, type, count, normalized) {
         this.gl = gl;

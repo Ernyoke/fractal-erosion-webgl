@@ -1,3 +1,5 @@
+'use strict';
+
 import {VertexArray} from "./VertexArray";
 import {VertexBuffer} from "./VertexBuffer";
 import {IndexBuffer} from "./IndexBuffer";

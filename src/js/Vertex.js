@@ -1,3 +1,5 @@
+'use strict';
+
 export class Vertex {
     constructor(coordinates, color, normal) {
         this._coordinates = coordinates;

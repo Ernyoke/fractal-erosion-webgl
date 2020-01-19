@@ -1,4 +1,4 @@
-import {vec3, vec4} from 'gl-matrix';
+'use strict';
 
 function radians(angle) {
     return angle * Math.PI / 180;

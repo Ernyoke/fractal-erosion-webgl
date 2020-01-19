@@ -1,3 +1,5 @@
+'use strict';
+
 export class IndexBuffer {
     constructor(gl) {
         this.gl = gl;
