@@ -6,7 +6,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-    mode: process.env.NODE_ENV,
     cache: true,
     context: __dirname,
     performance: {
@@ -66,7 +65,12 @@ module.exports = {
                     {
                         loader: 'babel-loader',
                         options: {
-                            presets: ['@babel/preset-env']
+                            presets: [['@babel/preset-env',
+                                {
+                                    targets: {
+                                        browsers: ['defaults']
+                                    }
+                                }]]
                         }
                     }
                 ]

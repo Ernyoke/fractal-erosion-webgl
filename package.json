@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --open --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "clean": "clean-node",
     "rebuild": "npm run clean && npm install && npm run build",
     "clean-source": "rimraf README.md src webroot package.json",
@@ -27,6 +30,7 @@
     "eslint": "^6.8.0",
     "eslint-config-google": "^0.14.0",
     "file-loader": "^5.0.2",
+    "gh-pages": "^2.2.0",
     "gl-matrix": "^3.1.0",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
