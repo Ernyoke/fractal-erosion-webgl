@@ -1,7 +1,7 @@
 'use strict';
 
 import {vec3, mat4} from 'gl-matrix';
-import {radians} from "./MathHelpers";
+import {radians} from './MathHelpers';
 
 export class Camera {
     constructor(gl, position, up, worldUp, yaw, pitch) {

@@ -28,5 +28,4 @@ export class IndexBuffer {
     clear() {
         this.gl.deleteBuffer(this.buffer);
     }
-
 }

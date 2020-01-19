@@ -12,7 +12,12 @@ export class VertexArray {
         for (let i = 0; i < vertexBufferLayout.elements.length; i++) {
             const element = vertexBufferLayout.elements[i];
             this.gl.enableVertexAttribArray(i);
-            this.gl.vertexAttribPointer(i, element.count, element.type, element.normalized, vertexBufferLayout.stride, offset);
+            this.gl.vertexAttribPointer(i,
+                element.count,
+                element.type,
+                element.normalized,
+                vertexBufferLayout.stride,
+                offset);
             offset += element.count * element.sizeOfType();
         }
     }

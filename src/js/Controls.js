@@ -5,22 +5,22 @@ export class Controls {
         domElement.setAttribute('tabindex', '0');
         domElement.focus();
         if (domElement) {
-            domElement.addEventListener("mousedown", event => {
+            domElement.addEventListener('mousedown', (event) => {
                 this.onMouseDown(event);
             }, false);
-            domElement.addEventListener("mouseup", event => {
+            domElement.addEventListener('mouseup', (event) => {
                 this.onMouseUp(event);
             }, false);
-            domElement.addEventListener("mousemove", event => {
+            domElement.addEventListener('mousemove', (event) => {
                 this.onMouseMove(event);
             }, false);
-            domElement.addEventListener("wheel", event => {
+            domElement.addEventListener('wheel', (event) => {
                 this.onMouseScroll(event);
             }, false);
-            domElement.addEventListener("keypress", event => {
+            domElement.addEventListener('keypress', (event) => {
                 this.onKeyDow(event);
             }, false);
-            domElement.addEventListener("keyup", event => {
+            domElement.addEventListener('keyup', (event) => {
                 this.onKeyUp(event);
             }, false);
         }
@@ -79,10 +79,10 @@ export class Controls {
     }
 
     onKeyDow(event) {
-        if (event.keyCode == 65 || event.keyCode == 97) {
+        if (event.keyCode === 65 || event.keyCode === 97) {
             this.terrain.rotate(-1);
         }
-        if (event.keyCode == 68 || event.keyCode == 100) {
+        if (event.keyCode === 68 || event.keyCode === 100) {
             this.terrain.rotate(1);
         }
     }

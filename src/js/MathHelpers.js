@@ -22,7 +22,7 @@ function minMax(array, compareFn) {
     }
     const result = {
         min: array[0],
-        max: array[0]
+        max: array[0],
     };
     for (const element of array) {
         if (compareFn(result.max, element) < 0) {
@@ -40,5 +40,5 @@ export {
     isPowerOf2,
     randRange,
     normalize,
-    minMax
-}
+    minMax,
+};

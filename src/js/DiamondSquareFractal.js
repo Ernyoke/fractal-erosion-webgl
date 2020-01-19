@@ -1,10 +1,10 @@
 'use strict';
 
-import {Vertex} from "./Vertex";
-import {Mesh} from "./Mesh";
-import {getTerrainColorForHeight} from "./MaterialHelper";
+import {Vertex} from './Vertex';
+import {Mesh} from './Mesh';
+import {getTerrainColorForHeight} from './MaterialHelper';
 
-import {isPowerOf2, randRange, minMax} from "./MathHelpers";
+import {isPowerOf2, randRange, minMax} from './MathHelpers';
 import {vec3, vec4} from 'gl-matrix';
 
 export class DiamondSquareFractal {
@@ -63,8 +63,10 @@ export class DiamondSquareFractal {
                     const s3 = this.grid[x + i][y + i];
                     const cn = this.grid[x + (i / 2)][y + (i / 2)];
 
-                    const d0 = y <= 0 ? (s0 + s1 + cn) / 3.0 : (s0 + s1 + cn + this.grid[x + (i / 2)][y - (i / 2)]) / 4.0;
-                    const d1 = x <= 0 ? (s0 + cn + s2) / 3.0 : (s0 + cn + s2 + this.grid[x - (i / 2)][y + (i / 2)]) / 4.0;
+                    const d0 = y <= 0 ? (s0 + s1 + cn) / 3.0 :
+                        (s0 + s1 + cn + this.grid[x + (i / 2)][y - (i / 2)]) / 4.0;
+                    const d1 = x <= 0 ? (s0 + cn + s2) / 3.0 :
+                        (s0 + cn + s2 + this.grid[x - (i / 2)][y + (i / 2)]) / 4.0;
                     const d2 = x >= s - i ? (s1 + cn + s3) / 3.0 :
                         (s1 + cn + s3 + this.grid[x + i + (i / 2)][y + (i / 2)]) / 4.0;
                     const d3 = y >= s - i ? (cn + s2 + s3) / 3.0 :
@@ -80,7 +82,7 @@ export class DiamondSquareFractal {
     }
 
     createGrid(defaultValue) {
-        let grid = [];
+        const grid = [];
         for (let i = 0; i < this.gridSize; i++) {
             grid[i] = [];
             for (let j = 0; j < this.gridSize; j++) {
@@ -164,7 +166,10 @@ export class DiamondSquareFractal {
     computeTextureColors(vertices) {
         const minmax = minMax(vertices, (a, b) => a.coordinates[1] - b.coordinates[1]);
         for (const vertex of vertices) {
-            vertex.color = getTerrainColorForHeight(vertex.coordinates[1], minmax.min.coordinates[1], minmax.max.coordinates[1]);
+            vertex.color = getTerrainColorForHeight(
+                vertex.coordinates[1],
+                minmax.min.coordinates[1],
+                minmax.max.coordinates[1]);
         }
     }
 }

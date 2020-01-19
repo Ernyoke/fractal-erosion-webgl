@@ -1,11 +1,11 @@
 'use strict';
 
-import {VertexArray} from "./VertexArray";
-import {VertexBuffer} from "./VertexBuffer";
-import {IndexBuffer} from "./IndexBuffer";
-import {VertexBufferLayout} from "./VertexBufferLayout";
-import {mat4, vec3} from "gl-matrix";
-import {Material} from "./Material";
+import {VertexArray} from './VertexArray';
+import {VertexBuffer} from './VertexBuffer';
+import {IndexBuffer} from './IndexBuffer';
+import {VertexBufferLayout} from './VertexBufferLayout';
+import {mat4, vec3} from 'gl-matrix';
+import {Material} from './Material';
 
 export class Terrain {
     constructor(gl, mesh, rotationAngle) {
@@ -70,6 +70,9 @@ export class Terrain {
     }
 
     applyRotation() {
-        mat4.rotate(this._modelMatrix, mat4.identity(mat4.create()), this._rotationAngle, vec3.fromValues(0.0, 1.0, 0.0));
+        mat4.rotate(this._modelMatrix,
+            mat4.identity(mat4.create()),
+            this._rotationAngle,
+            vec3.fromValues(0.0, 1.0, 0.0));
     }
 }

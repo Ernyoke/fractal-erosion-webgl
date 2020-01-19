@@ -1,18 +1,18 @@
 'use strict';
 
-import {DiamondSquareFractal} from "./DiamondSquareFractal";
-import {Terrain} from "./Terrain";
-import {Shader} from "./Shader";
-import {ShaderProgram} from "./ShaderProgram";
-import {Light} from "./Light";
-import {Renderer} from "./Renderer";
-import {Camera} from "./Camera";
-import {Controls} from "./Controls";
+import {DiamondSquareFractal} from './DiamondSquareFractal';
+import {Terrain} from './Terrain';
+import {Shader} from './Shader';
+import {ShaderProgram} from './ShaderProgram';
+import {Light} from './Light';
+import {Renderer} from './Renderer';
+import {Camera} from './Camera';
+import {Controls} from './Controls';
 
-import {mat4, vec3} from "gl-matrix";
+import {mat4, vec3} from 'gl-matrix';
 
-import vertexShader from "../shaders/vertexShader.glsl";
-import fragmentShader from "../shaders/fragmentShader.glsl";
+import vertexShader from '../shaders/vertexShader.glsl';
+import fragmentShader from '../shaders/fragmentShader.glsl';
 
 export class Display {
     constructor(gl, canvas) {
@@ -72,11 +72,10 @@ export class Display {
         this.directionalLight.useLight(this.shaderProgram);
         this.terrain.material.useMaterial(this.shaderProgram);
         this.renderer.clear();
-        this.shaderProgram.setUniformMat4f("u_Model", this.terrain.modelMatrix);
-        this.shaderProgram.setUniformMat4f("u_View", this.camera.calculateViewMatrix());
-        // console.log(this.camera.calculateViewMatrix());
-        this.shaderProgram.setUniformMat4f("u_Projection", this.perspective);
-        this.shaderProgram.setUniform3f("u_EyePosition", this.camera.position);
+        this.shaderProgram.setUniformMat4f('u_Model', this.terrain.modelMatrix);
+        this.shaderProgram.setUniformMat4f('u_View', this.camera.calculateViewMatrix());
+        this.shaderProgram.setUniformMat4f('u_Projection', this.perspective);
+        this.shaderProgram.setUniform3f('u_EyePosition', this.camera.position);
         this.renderer.draw(this.terrain, this.shaderProgram);
     }
 
