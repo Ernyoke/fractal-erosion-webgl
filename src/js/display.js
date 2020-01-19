@@ -1,13 +1,13 @@
 'use strict';
 
-import {DiamondSquareFractal} from './DiamondSquareFractal';
-import {Terrain} from './Terrain';
-import {Shader} from './Shader';
-import {ShaderProgram} from './ShaderProgram';
-import {Light} from './Light';
-import {Renderer} from './Renderer';
-import {Camera} from './Camera';
-import {Controls} from './Controls';
+import {DiamondSquareFractal} from './diamond-square-fractal';
+import {Terrain} from './terrain';
+import {Shader} from './shader';
+import {ShaderProgram} from './shader-program';
+import {Light} from './light';
+import {Renderer} from './renderer';
+import {Camera} from './camera';
+import {Controls} from './controls';
 
 import {mat4, vec3} from 'gl-matrix';
 

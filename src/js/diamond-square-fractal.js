@@ -1,10 +1,10 @@
 'use strict';
 
-import {Vertex} from './Vertex';
-import {Mesh} from './Mesh';
-import {getTerrainColorForHeight} from './MaterialHelper';
+import {Vertex} from './vertex';
+import {Mesh} from './mesh';
+import {getTerrainColorForHeight} from './material-helper';
 
-import {isPowerOf2, randRange, minMax} from './MathHelpers';
+import {isPowerOf2, randRange, minMax} from './math-helpers';
 import {vec3, vec4} from 'gl-matrix';
 
 export class DiamondSquareFractal {

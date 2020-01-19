@@ -1,4 +1,4 @@
-import {isPowerOf2} from './MathHelpers';
+import {isPowerOf2} from './math-helpers';
 
 describe('math helpers', function() {
     it('should return true in case of a number which is a power of 2', function() {

@@ -1,6 +1,6 @@
 'use strict';
 
-import {VertexBufferLayoutElement} from './VertexBufferLayoutElement';
+import {VertexBufferLayoutElement} from './vertex-buffer-layout-element';
 
 export class VertexBufferLayout {
     constructor(gl) {

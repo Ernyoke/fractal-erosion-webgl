@@ -1,11 +1,11 @@
 'use strict';
 
-import {VertexArray} from './VertexArray';
-import {VertexBuffer} from './VertexBuffer';
-import {IndexBuffer} from './IndexBuffer';
-import {VertexBufferLayout} from './VertexBufferLayout';
+import {VertexArray} from './vertex-array';
+import {VertexBuffer} from './vertex-buffer';
+import {IndexBuffer} from './index-buffer';
+import {VertexBufferLayout} from './vertex-buffer-layout';
 import {mat4, vec3} from 'gl-matrix';
-import {Material} from './Material';
+import {Material} from './material';
 
 export class Terrain {
     constructor(gl, mesh, rotationAngle) {

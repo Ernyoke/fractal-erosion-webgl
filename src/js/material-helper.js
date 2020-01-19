@@ -1,7 +1,7 @@
 'use strict';
 
 import {vec4} from 'gl-matrix';
-import {normalize} from './MathHelpers';
+import {normalize} from './math-helpers';
 
 function hexToRGB(hex) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
