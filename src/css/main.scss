@@ -1,3 +1,5 @@
+@import "~bootstrap/scss/bootstrap";
+
 * {
     padding: 0;
     margin: 0;
@@ -10,5 +12,9 @@ canvas {
     margin: 0;
     border: 0;
     padding: 0;
+    position: absolute;
+}
+
+.jumbotron {
     position: absolute;
 }

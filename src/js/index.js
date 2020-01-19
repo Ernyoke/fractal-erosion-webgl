@@ -1,6 +1,7 @@
 'use strict';
 
 import '../css/main.scss';
+import 'bootstrap';
 import {Display} from './Display';
 
 const ready = (fn) => {
