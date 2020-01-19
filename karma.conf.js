@@ -1,4 +1,4 @@
-module.exports = function(config) {
+module.exports = function (config) {
     config.set({
         // base path used to resolve all patterns
         basePath: '',

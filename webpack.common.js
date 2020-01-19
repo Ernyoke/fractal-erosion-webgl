@@ -48,13 +48,24 @@ module.exports = {
                     'style-loader',
                     MiniCssExtractPlugin.loader,
                     {
-                        loader: "css-loader",
+                        loader: 'css-loader',
                         options: {
                             sourceMap: true
                         }
                     },
                     {
-                        loader: "sass-loader"
+                        loader: 'postcss-loader',
+                        options: {
+                            plugins: () => [autoprefixer()]
+                        }
+                    },
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            sassOptions: {
+                                includePaths: ['./node_modules']
+                            }
+                        }
                     }
                 ]
             },
