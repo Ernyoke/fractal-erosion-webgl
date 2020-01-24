@@ -56,6 +56,10 @@ export class Terrain {
         return this.indexBuffer.count;
     }
 
+    get rotationAngle() {
+        return this._rotationAngle;
+    }
+
     bind() {
         this.vertexArray.bind();
         this.indexBuffer.bind();

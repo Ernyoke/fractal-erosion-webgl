@@ -24,10 +24,10 @@ export class Display {
         this.roughness = 5;
     }
 
-    initialize() {
+    async initialize() {
         this.resize();
 
-        this.perspective = mat4.perspective(mat4.create(), 70.0, this.canvas.width / this.canvas.height, 0.1, 100.0);
+        this.perspective = mat4.perspective(mat4.create(), 70.0, this.canvas.width / this.canvas.height, 0.1, 1000.0);
 
         this.renderer = new Renderer(this.gl);
         this.camera = new Camera(
@@ -44,19 +44,67 @@ export class Display {
             0.5);
 
         this.fractal = new DiamondSquareFractal();
-        this.fractal.generateGrid(Math.pow(2, this.gridSize) + 1, this.seed, this.roughness / 5.0);
         this.loadTerrain();
         this.initShaderProgram();
+
+        this.initSidebarInputs();
     }
 
-    loadTerrain() {
+    hookSliderWithValueLabel(slider, valueLabel) {
+        slider.addEventListener('input', (event) => {
+            valueLabel.innerHTML = slider.value;
+        });
+    }
+
+    initSidebarInputs() {
+        const roughnessSlider = document.querySelector('#roughness-slider');
+        const roughnessSliderValueLabel = document.querySelector('#roughness-slider-value');
+        if (roughnessSlider && roughnessSliderValueLabel) {
+            roughnessSlider.defaultValue = this.roughness;
+            this.hookSliderWithValueLabel(roughnessSlider, roughnessSliderValueLabel);
+        }
+        const gridSizeSlider = document.querySelector('#grid-size-slider');
+        const gridSizeSliderValueLabel = document.querySelector('#grid-size-slider-value');
+        if (gridSizeSlider && gridSizeSliderValueLabel) {
+            gridSizeSlider.defaultValue = this.gridSize;
+            this.hookSliderWithValueLabel(gridSizeSlider, gridSizeSliderValueLabel);
+        }
+        const generateButton = document.querySelector('#generate-button');
+        if (generateButton && roughnessSlider && gridSizeSlider) {
+            generateButton.addEventListener('click', (event) => {
+                this.roughness = parseFloat(roughnessSlider.value);
+                this.gridSize = parseInt(gridSizeSlider.value);
+                this.loadTerrain().then(() => {
+                    // TODO: spinner
+                });
+            });
+        }
+        const thermalErosionIterationsSlider = document.querySelector('#thermal-iterations-slider');
+        const thermalErosionIterationsSliderValueLabel = document.querySelector('#thermal-iterations-slider-value');
+        if (thermalErosionIterationsSlider && thermalErosionIterationsSliderValueLabel) {
+            this.hookSliderWithValueLabel(thermalErosionIterationsSlider, thermalErosionIterationsSliderValueLabel);
+        }
+        const hydraulicErosionIterationsSlider = document.querySelector('#hydraulic-iterations-slider');
+        const hydraulicErosionIterationsValueLabel = document.querySelector('#hydraulic-iterations-slider-value');
+        if (hydraulicErosionIterationsSlider && hydraulicErosionIterationsValueLabel) {
+            this.hookSliderWithValueLabel(hydraulicErosionIterationsSlider, hydraulicErosionIterationsValueLabel);
+        }
+        const waterQuantitySlider = document.querySelector('#water-quantity-slider');
+        const waterQuantitySliderValueLabel = document.querySelector('#water-quantity-slider-value');
+        if (waterQuantitySlider && waterQuantitySliderValueLabel) {
+            this.hookSliderWithValueLabel(waterQuantitySlider, waterQuantitySliderValueLabel);
+        }
+    }
+
+    async loadTerrain() {
+        this.fractal.generateGrid(Math.pow(2, this.gridSize) + 1, this.seed, this.roughness / 5.0);
         const mesh = this.fractal.generateMesh();
         const rotationAngle = this.terrain ? this.terrain.rotationAngle : 0.0;
         this.terrain = new Terrain(this.gl, mesh, rotationAngle);
         this.controls = new Controls(this.canvas, this.camera, this.terrain);
     }
 
-    initShaderProgram() {
+    async initShaderProgram() {
         const vShader = new Shader(this.gl, vertexShader, this.gl.VERTEX_SHADER);
         vShader.compile();
         const fShader = new Shader(this.gl, fragmentShader, this.gl.FRAGMENT_SHADER);

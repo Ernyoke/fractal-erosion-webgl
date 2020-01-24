@@ -17,4 +17,13 @@ canvas {
 
 .jumbotron {
     position: absolute;
+    width: 400pt;
+
+    .title {
+        font-size: 2em;
+    }
+
+    .group-title {
+        font-size: 1.5em;
+    }
 }

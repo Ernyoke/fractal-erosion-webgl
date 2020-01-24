@@ -5,6 +5,7 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
+
 module.exports = {
     cache: true,
     context: __dirname,
@@ -83,6 +84,8 @@ module.exports = {
                         options: {
                             presets: [['@babel/preset-env',
                                 {
+                                    useBuiltIns: "usage",
+                                    corejs: 3,
                                     targets: {
                                         browsers: ['defaults']
                                     }

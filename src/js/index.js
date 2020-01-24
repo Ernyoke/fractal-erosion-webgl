@@ -21,7 +21,8 @@ ready(() => {
     }
 
     const display = new Display(gl, canvas);
-    display.initialize();
+    display.initialize().then(() => {
+    });
 
     const render = (delta) => {
         display.update(delta);
