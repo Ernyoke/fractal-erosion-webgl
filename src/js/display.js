@@ -79,27 +79,43 @@ export class Display {
         const thermalErosionIterationsSlider = document.querySelector('#thermal-iterations-slider');
         const thermalErosionIterationsSliderValueLabel = document.querySelector('#thermal-iterations-slider-value');
         if (thermalErosionIterationsSlider && thermalErosionIterationsSliderValueLabel) {
-            thermalErosionIterationsSlider.defaultValue = 7;
+            thermalErosionIterationsSlider.defaultValue = 10;
             this.hookSliderWithValueLabel(thermalErosionIterationsSlider, thermalErosionIterationsSliderValueLabel);
         }
         const applyThermalErosionButton = document.querySelector('#apply-thermal-erosion-button');
         if (applyThermalErosionButton && thermalErosionIterationsSlider) {
             applyThermalErosionButton.addEventListener('click', (event) => {
                 const iteration = parseInt(thermalErosionIterationsSlider.value);
-                this.terrain.applyThermalErosion(iteration).then(() => this.resetTerrain()).then(() => {
-                    // TODO: spinner
-                });
+                this.terrain.applyThermalErosion(iteration)
+                    .then(() => this.resetTerrain())
+                    .then(() => {
+                        // TODO: spinner
+                    });
             });
         }
         const hydraulicErosionIterationsSlider = document.querySelector('#hydraulic-iterations-slider');
         const hydraulicErosionIterationsValueLabel = document.querySelector('#hydraulic-iterations-slider-value');
         if (hydraulicErosionIterationsSlider && hydraulicErosionIterationsValueLabel) {
+            hydraulicErosionIterationsSlider.defaultValue = 10;
             this.hookSliderWithValueLabel(hydraulicErosionIterationsSlider, hydraulicErosionIterationsValueLabel);
         }
         const waterQuantitySlider = document.querySelector('#water-quantity-slider');
         const waterQuantitySliderValueLabel = document.querySelector('#water-quantity-slider-value');
         if (waterQuantitySlider && waterQuantitySliderValueLabel) {
+            waterQuantitySlider.defaultValue = 0.1;
             this.hookSliderWithValueLabel(waterQuantitySlider, waterQuantitySliderValueLabel);
+        }
+        const applyHydraulicErosionButton = document.querySelector('#apply-hydraulic-erosion-button');
+        if (applyHydraulicErosionButton && hydraulicErosionIterationsSlider && waterQuantitySlider) {
+            applyHydraulicErosionButton.addEventListener('click', (event) => {
+                const iteration = parseInt(hydraulicErosionIterationsSlider.value);
+                const waterQuantity = parseFloat(waterQuantitySlider.value);
+                this.terrain.applyHydraulicErosion(iteration, waterQuantity)
+                    .then(() => this.resetTerrain())
+                    .then(() => {
+                        // TODO: spinner
+                    });
+            });
         }
     }
 

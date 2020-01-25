@@ -4,9 +4,10 @@ import {VertexArray} from './vertex-array';
 import {VertexBuffer} from './vertex-buffer';
 import {IndexBuffer} from './index-buffer';
 import {VertexBufferLayout} from './vertex-buffer-layout';
-import {mat4, vec3} from 'gl-matrix';
 import {Material} from './material';
 import {DiamondSquareFractal} from './diamond-square-fractal';
+
+import {mat4, vec3} from 'gl-matrix';
 
 export class Terrain {
     constructor(gl, gridSize, roughness) {
@@ -93,10 +94,15 @@ export class Terrain {
             vec3.fromValues(0.0, 1.0, 0.0));
     }
 
-    // erosion
     async applyThermalErosion(iterations) {
         for (let i = 0; i < iterations; i++) {
             await this.fractal.applyThermalErosion();
+        }
+    }
+
+    async applyHydraulicErosion(iterations, waterQuantity) {
+        for (let i = 0; i < iterations; i++) {
+            await this.fractal.applyHydraulicErosion(waterQuantity, 0.5);
         }
     }
 }

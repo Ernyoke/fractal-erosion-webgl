@@ -215,4 +215,166 @@ export class DiamondSquareFractal {
             }
         }
     }
+
+    async applyHydraulicErosion(quantity, sedimentFactor) {
+        const peaks = [];
+        for (let x = 0; x < this.gridSize; x++) {
+            for (let y = 0; y < this.gridSize; y++) {
+                if (this.isPeak(this.grid[x][y], x, y, true)) {
+                    peaks.push(new Peak(this.grid[x][y], x, y));
+                }
+            }
+        }
+
+        const gridChecked = this.createGrid(false);
+        const waterQuantity = this.createGrid(quantity);
+        const sedimentQuantity = this.createGrid(quantity * sedimentFactor);
+
+        for (const peak of peaks) {
+            this.applyHydraulicErosionFromPeak(peak, gridChecked, sedimentFactor, waterQuantity, sedimentQuantity);
+        }
+    }
+
+    isPeak(value, x, y, upper) {
+        let isPeak = true;
+
+        for (let i = -1; i <= 1; i++) {
+            for (let j = -1; j <= 1; j++) {
+                // check if neighbour is inside the matrix
+                if (x + i >= 0 &&
+                    x + i < this.gridSize &&
+                    y + j >= 0 &&
+                    y + j < this.gridSize) {
+                    if (upper) {
+                        if (this.grid[x + i][y + j] > value) {
+                            isPeak = false;
+                        }
+                    } else {
+                        if (this.grid[x + i][y + j] < value) {
+                            isPeak = false;
+                        }
+                    }
+                }
+            }
+        }
+        return isPeak;
+    }
+
+    applyHydraulicErosionFromPeak(peak, gridChecked, sedimentFactor, waterQuantity, sedimentQuantity) {
+        gridChecked[peak.x][peak.y] = true;
+
+        const neighbourCount = this.countNeighbours(peak);
+        if (neighbourCount === 0) {
+            return;
+        }
+
+        const kd = 0.1;
+        const kc = 5.0;
+        const ks = 0.3;
+
+        for (let i = -1; i <= 1; i++) {
+            for (let j = -1; j <= 1; j++) {
+                if (peak.x + i >= 0 &&
+                    peak.x + i < this.gridSize &&
+                    peak.y + j >= 0 &&
+                    peak.y + j < this.gridSize) {
+                    if (!(i === 0 || j === 0)) {
+                        continue;
+                    }
+                    // we do this only if the peak is higher
+                    if (this.grid[peak.x][peak.y] > this.grid[peak.x + i][peak.y + j]) {
+                        if (!this.isMargin(peak, i, j)) {
+                            // 1. Move water from the peak to the neighbours
+                            const height = this.grid[peak.x][peak.y];
+                            const neighbourHeight = this.grid[peak.x + i][peak.y + j];
+                            const wt = this.moveWater(height, neighbourHeight, waterQuantity[peak.x][peak.y],
+                                waterQuantity[peak.x + i][peak.y + j]);
+
+                            if (wt > 0) {
+                                waterQuantity[peak.x][peak.y] -= wt;
+                                waterQuantity[peak.x + i][peak.y + j] += wt;
+
+                                // 2. Move sediment to the neighbours
+                                this.grid[peak.x][peak.y] -= wt * sedimentFactor;
+                                this.grid[peak.x + i][peak.y + j] += wt * sedimentFactor;
+                                const cs = kc * wt;
+
+                                if (sedimentQuantity[peak.x][peak.y] >= cs) {
+                                    sedimentQuantity[peak.x + i][peak.y + j] += cs;
+                                    this.grid[peak.x][peak.y] += kd * (sedimentQuantity[peak.x][peak.y] - cs);
+                                    sedimentQuantity[peak.x][peak.y] = (1 - kd) *
+                                        (sedimentQuantity[peak.x][peak.y] - cs);
+                                } else {
+                                    sedimentQuantity[peak.x + i][peak.y + j] +=
+                                        sedimentQuantity[peak.x][peak.y] +
+                                        ks * (cs - sedimentQuantity[peak.x][peak.y]);
+                                    this.grid[peak.x][peak.y] += -ks * (cs - sedimentQuantity[peak.x][peak.y]);
+                                    sedimentQuantity[peak.x][peak.y] = 0;
+                                }
+                            } else {
+                                this.grid[peak.x][peak.y] += ks * sedimentQuantity[peak.x][peak.y];
+                            }
+                        } else {
+                            waterQuantity[peak.x + i][peak.y + j] = 0;
+                            sedimentQuantity[peak.x + i][peak.y + j] = 0;
+                        }
+                        if (!gridChecked[peak.x + i][peak.y + j]) {
+                            this.applyHydraulicErosionFromPeak(new Peak(
+                                this.grid[peak.x + i][peak.y + j],
+                                peak.x + i,
+                                peak.y + j), gridChecked, sedimentFactor, waterQuantity, sedimentQuantity);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    countNeighbours(peak) {
+        let count = 0;
+        for (let i = -1; i <= 1; i++) {
+            for (let j = -1; j <= 1; j++) {
+                if (peak.x + i >= 0 &&
+                    peak.x + i < this.gridSize &&
+                    peak.y + j >= 0 &&
+                    peak.y + j < this.gridSize) {
+                    if (this.grid[peak.x + i][peak.y + j] < this.grid[peak.x][peak.y]) {
+                        count++;
+                    }
+                }
+            }
+        }
+        return count;
+    }
+
+    isMargin(peak, i, j) {
+        return peak.x + i === 0 ||
+            peak.x + i === this.gridSize ||
+            peak.y + j === 0 ||
+            peak.y + j === this.gridSize;
+    }
+
+    moveWater(height, neighbourHeight, waterQuantity, waterQuantityNeighbour) {
+        return Math.min(waterQuantity, (waterQuantity + height) - (waterQuantityNeighbour + neighbourHeight));
+    }
+}
+
+class Peak {
+    constructor(value, x, y) {
+        this._value = value;
+        this._x = x;
+        this._y = y;
+    }
+
+    get value() {
+        return this._value;
+    }
+
+    get x() {
+        return this._x;
+    }
+
+    get y() {
+        return this._y;
+    }
 }
