@@ -12,7 +12,7 @@ export class DiamondSquareFractal {
         this.grid = [[]];
     }
 
-    generateMesh() {
+    async generateMesh() {
         const vertices = this.computeVertices();
         const indices = this.computeIndices();
         this.computeNormals(vertices, indices);
@@ -21,7 +21,7 @@ export class DiamondSquareFractal {
         return new Mesh(vertices, indices);
     }
 
-    generateGrid(gridSize, seed, noise, randomMin = 0.0, randomMax = 40.0) {
+    async generateGrid(gridSize, noise, randomMin = 0.0, randomMax = 40.0) {
         this.gridSize = gridSize;
         const s = gridSize - 1;
         if (!isPowerOf2(s) || randomMin >= randomMax) {
@@ -100,10 +100,10 @@ export class DiamondSquareFractal {
                     vec3.fromValues(
                         (x - (this.gridSize / 2.0)) * 0.25,
                         this.grid[x][y] / 2.0,
-                        (y - (this.gridSize / 2.0)) * 0.25
+                        (y - (this.gridSize / 2.0)) * 0.25,
                     ),
                     vec4.create(),
-                    vec3.create()
+                    vec3.create(),
                 ));
             }
         }

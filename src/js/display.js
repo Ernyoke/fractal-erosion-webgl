@@ -1,6 +1,5 @@
 'use strict';
 
-import {DiamondSquareFractal} from './diamond-square-fractal';
 import {Terrain} from './terrain';
 import {Shader} from './shader';
 import {ShaderProgram} from './shader-program';
@@ -20,7 +19,6 @@ export class Display {
         this.canvas = canvas;
 
         this.gridSize = 7;
-        this.seed = 25;
         this.roughness = 5;
     }
 
@@ -43,7 +41,6 @@ export class Display {
             vec3.fromValues(1.0, -2.0, -2.0),
             0.5);
 
-        this.fractal = new DiamondSquareFractal();
         this.loadTerrain();
         this.initShaderProgram();
 
@@ -97,10 +94,9 @@ export class Display {
     }
 
     async loadTerrain() {
-        this.fractal.generateGrid(Math.pow(2, this.gridSize) + 1, this.seed, this.roughness / 5.0);
-        const mesh = this.fractal.generateMesh();
         const rotationAngle = this.terrain ? this.terrain.rotationAngle : 0.0;
-        this.terrain = new Terrain(this.gl, mesh, rotationAngle);
+        this.terrain = new Terrain(this.gl, this.gridSize, this.roughness);
+        await this.terrain.initialize(rotationAngle);
         this.controls = new Controls(this.canvas, this.camera, this.terrain);
     }
 

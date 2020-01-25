@@ -6,23 +6,32 @@ import {IndexBuffer} from './index-buffer';
 import {VertexBufferLayout} from './vertex-buffer-layout';
 import {mat4, vec3} from 'gl-matrix';
 import {Material} from './material';
+import {DiamondSquareFractal} from './diamond-square-fractal';
 
 export class Terrain {
-    constructor(gl, mesh, rotationAngle) {
+    constructor(gl, gridSize, roughness) {
         this.gl = gl;
+        this.gridSize = gridSize;
+        this.roughness = roughness;
+        this.fractal = new DiamondSquareFractal();
+    }
+
+    async initialize(rotationAngle) {
+        await this.fractal.generateGrid(Math.pow(2, this.gridSize) + 1, this.roughness / 5.0);
+        const mesh = await this.fractal.generateMesh();
 
         // initialize vertex array
-        this.vertexArray = new VertexArray(gl);
+        this.vertexArray = new VertexArray(this.gl);
         this.vertexArray.bind();
 
         // initialize vertex and index buffers;
-        this.vertexBuffer = new VertexBuffer(gl);
+        this.vertexBuffer = new VertexBuffer(this.gl);
         this.vertexBuffer.init(mesh.vertexData);
-        this.indexBuffer = new IndexBuffer(gl);
+        this.indexBuffer = new IndexBuffer(this.gl);
         this.indexBuffer.init(mesh.indexData);
 
         // initialize the vertex buffer layout
-        this.vertexBufferLayout = new VertexBufferLayout(gl);
+        this.vertexBufferLayout = new VertexBufferLayout(this.gl);
 
         // we expect that the layout for the vertex data is vec3 of floats for the indices
         this.vertexBufferLayout.pushFloat(3);
