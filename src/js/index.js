@@ -2,7 +2,7 @@
 
 import '../css/main.scss';
 import 'bootstrap';
-import {Display} from './Display';
+import {Display} from './display';
 
 const ready = (fn) => {
     if (document.readyState !== 'loading') {
