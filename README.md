@@ -6,6 +6,8 @@ Procedurally generate terrain using [Diamond-square fractal algorithm](https://e
 
 See native C++ implementation: [https://github.com/Ernyoke/fractal-erosion]()
 
+**Try it out: [https://ernyoke.github.io/fractal-erosion-webgl/]()**
+
 ## Build
 ```
 git clone git@github.com:Ernyoke/fractal-erosion-webgl.git

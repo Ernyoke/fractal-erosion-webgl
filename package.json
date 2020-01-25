@@ -20,6 +20,10 @@
   ],
   "author": "Ervin Szilagyi",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ernyoke/fractal-erosion-webgl"
+  },
   "devDependencies": {
     "@babel/core": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
