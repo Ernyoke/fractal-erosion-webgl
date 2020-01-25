@@ -172,4 +172,47 @@ export class DiamondSquareFractal {
                 minmax.max.coordinates[1]);
         }
     }
+
+    async applyThermalErosion() {
+        let peak = this.grid[0][0];
+        let low = this.grid[0][0];
+
+        // look for the highest point
+        for (let i = 0; i < this.gridSize; i++) {
+            for (let j = 0; j < this.gridSize; j++) {
+                if (this.grid[i][j] > peak) {
+                    peak = this.grid[i][j];
+                }
+                if (this.grid[i][j] < low) {
+                    low = this.grid[i][j];
+                }
+            }
+        }
+        const erosionHeight = (peak - low) / 1000.0;
+        this.applyThermalErosionTonNeighbour(erosionHeight);
+    }
+
+    applyThermalErosionTonNeighbour(erosionHeight) {
+        for (let x = 0; x < this.gridSize; x++) {
+            for (let y = 0; y < this.gridSize; y++) {
+                for (let i = -1; i <= 1; i++) {
+                    const positionX = x;
+                    const positionY = y;
+                    for (let j = -1; j <= 1; j++) {
+                        // check if neighbour is inside the matrix
+                        if (positionX + i >= 0 &&
+                            positionX + i < this.gridSize &&
+                            positionY + j >= 0 &&
+                            positionY + j < this.gridSize) {
+                            // check if material needs to be moved to the neighbour
+                            if (this.grid[positionX + i][positionY + j] < this.grid[positionX][positionY]) {
+                                this.grid[positionX + i][positionY + j] += erosionHeight;
+                                this.grid[positionX][positionY] -= erosionHeight;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

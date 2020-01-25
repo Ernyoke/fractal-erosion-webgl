@@ -79,7 +79,17 @@ export class Display {
         const thermalErosionIterationsSlider = document.querySelector('#thermal-iterations-slider');
         const thermalErosionIterationsSliderValueLabel = document.querySelector('#thermal-iterations-slider-value');
         if (thermalErosionIterationsSlider && thermalErosionIterationsSliderValueLabel) {
+            thermalErosionIterationsSlider.defaultValue = 7;
             this.hookSliderWithValueLabel(thermalErosionIterationsSlider, thermalErosionIterationsSliderValueLabel);
+        }
+        const applyThermalErosionButton = document.querySelector('#apply-thermal-erosion-button');
+        if (applyThermalErosionButton && thermalErosionIterationsSlider) {
+            applyThermalErosionButton.addEventListener('click', (event) => {
+                const iteration = parseInt(thermalErosionIterationsSlider.value);
+                this.terrain.applyThermalErosion(iteration).then(() => this.resetTerrain()).then(() => {
+                    // TODO: spinner
+                });
+            });
         }
         const hydraulicErosionIterationsSlider = document.querySelector('#hydraulic-iterations-slider');
         const hydraulicErosionIterationsValueLabel = document.querySelector('#hydraulic-iterations-slider-value');
@@ -94,10 +104,15 @@ export class Display {
     }
 
     async loadTerrain() {
-        const rotationAngle = this.terrain ? this.terrain.rotationAngle : 0.0;
         this.terrain = new Terrain(this.gl, this.gridSize, this.roughness);
-        await this.terrain.initialize(rotationAngle);
+        await this.terrain.initialize();
         this.controls = new Controls(this.canvas, this.camera, this.terrain);
+    }
+
+    async resetTerrain() {
+        if (this.terrain) {
+            await this.terrain.reset();
+        }
     }
 
     async initShaderProgram() {

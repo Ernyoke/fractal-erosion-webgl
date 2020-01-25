@@ -14,10 +14,15 @@ export class Terrain {
         this.gridSize = gridSize;
         this.roughness = roughness;
         this.fractal = new DiamondSquareFractal();
+        this._rotationAngle = 0.0;
     }
 
-    async initialize(rotationAngle) {
+    async initialize() {
         await this.fractal.generateGrid(Math.pow(2, this.gridSize) + 1, this.roughness / 5.0);
+        await this.reset();
+    }
+
+    async reset() {
         const mesh = await this.fractal.generateMesh();
 
         // initialize vertex array
@@ -46,7 +51,6 @@ export class Terrain {
         this.vertexArray.addBuffer(this.vertexBuffer, this.vertexBufferLayout);
 
         this._modelMatrix = mat4.create();
-        this._rotationAngle = rotationAngle;
         this._rotationSpeed = 0.05;
         this._material = new Material(0.5, 32.0);
 
@@ -87,5 +91,12 @@ export class Terrain {
             mat4.identity(mat4.create()),
             this._rotationAngle,
             vec3.fromValues(0.0, 1.0, 0.0));
+    }
+
+    // erosion
+    async applyThermalErosion(iterations) {
+        for (let i = 0; i < iterations; i++) {
+            await this.fractal.applyThermalErosion();
+        }
     }
 }
