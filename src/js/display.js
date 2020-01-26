@@ -6,7 +6,6 @@ import {ShaderProgram} from './shader-program';
 import {Light} from './light';
 import {Renderer} from './renderer';
 import {Camera} from './camera';
-import {Controls} from './controls';
 
 import {mat4, vec3} from 'gl-matrix';
 
@@ -20,6 +19,17 @@ export class Display {
 
         this.gridSize = 7;
         this.roughness = 5;
+
+        // controls
+        this.lastX = 0.0;
+        this.lastY = 0.0;
+        this.xChange = 0.0;
+        this.yChange = 0.0;
+        this.mouseFirstMoved = true;
+        this.mouseButtonPressed = Array(16).fill(false);
+        this.keyPressed = Array(1024).fill(false);
+
+        this.deltaTime = 0;
     }
 
     async initialize() {
@@ -44,7 +54,33 @@ export class Display {
         this.loadTerrain();
         this.initShaderProgram();
 
+        this.initCanvasControls();
         this.initSidebarInputs();
+    }
+
+    initCanvasControls() {
+        if (this.canvas) {
+            this.canvas.setAttribute('tabindex', '0');
+            this.canvas.focus();
+            this.canvas.addEventListener('mousedown', (event) => {
+                this.onMouseDown(event);
+            }, false);
+            this.canvas.addEventListener('mouseup', (event) => {
+                this.onMouseUp(event);
+            }, false);
+            this.canvas.addEventListener('mousemove', (event) => {
+                this.onMouseMove(event);
+            }, false);
+            this.canvas.addEventListener('wheel', (event) => {
+                this.onMouseScroll(event);
+            }, false);
+            this.canvas.addEventListener('keypress', (event) => {
+                this.onKeyDow(event);
+            }, false);
+            this.canvas.addEventListener('keyup', (event) => {
+                this.onKeyUp(event);
+            }, false);
+        }
     }
 
     initSidebarInputs() {
@@ -121,7 +157,6 @@ export class Display {
     async loadTerrain() {
         this.terrain = new Terrain(this.gl, this.gridSize, this.roughness);
         await this.terrain.initialize();
-        this.controls = new Controls(this.canvas, this.camera, this.terrain);
     }
 
     async resetTerrain() {
@@ -141,8 +176,9 @@ export class Display {
     }
 
     update(delta) {
+        this.deltaTime = delta;
         this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
-        this.controls.deltaTime = delta;
+        this.handleKeypress();
         this.directionalLight.useLight(this.shaderProgram);
         this.terrain.material.useMaterial(this.shaderProgram);
         this.renderer.clear();
@@ -156,5 +192,63 @@ export class Display {
     resize() {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
+    }
+
+    onMouseDown(event) {
+        this.mouseButtonPressed[event.button] = true;
+    }
+
+    onMouseUp(event) {
+        this.mouseButtonPressed[event.button] = false;
+    }
+
+    onMouseMove(event) {
+        if (this.mouseFirstMoved) {
+            this.lastX = event.x;
+            this.lastY = event.y;
+            this.mouseFirstMoved = false;
+        } else {
+            this.xChange = event.x - this.lastX;
+            this.yChange = event.y - this.lastY;
+            this.lastX = event.x;
+            this.lastY = event.y;
+
+            if (this.mouseButtonPressed[0]) {
+                this.camera.turn(-this.xChange, this.yChange);
+            }
+        }
+    }
+
+    onMouseScroll(event) {
+        if (event.deltaY > 0) {
+            this.camera.moveForward(this.deltaTime);
+        } else {
+            if (event.deltaY < 0) {
+                this.camera.moveBackward(this.deltaTime);
+            }
+        }
+    }
+
+    onKeyDow(event) {
+        this.keyPressed[event.keyCode] = true;
+        this.keyPressed[event.keyCode + 32] = true;
+    }
+
+    onKeyUp(event) {
+        this.keyPressed[event.keyCode] = false;
+        this.keyPressed[event.keyCode + 32] = false;
+    }
+
+    handleKeypress() {
+        for (let i = 0; i < this.keyPressed.length; i++) {
+            if (this.keyPressed[i]) {
+                if (i === 65 || i === 97) {
+                    this.terrain.rotate(-1);
+                }
+                if (i === 68 || i === 100) {
+                    this.terrain.rotate(1);
+                }
+            }
+        }
     }
 }
