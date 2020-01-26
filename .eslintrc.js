@@ -28,6 +28,7 @@ module.exports = {
                 "code": 120,
                 "ignoreComments": true
             }],
+        "space-before-function-paren": "off",
         "no-unused-expressions": 0,
         "chai-friendly/no-unused-expressions": 2,
         "chai-expect/missing-assertion": 2,

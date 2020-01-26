@@ -11,7 +11,7 @@
     "clean": "clean-node",
     "rebuild": "npm run clean && npm install && npm run build",
     "clean-source": "rimraf README.md src webroot package.json",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "karma start"
   },
   "keywords": [
     "fractal",
@@ -27,10 +27,12 @@
   "devDependencies": {
     "@babel/core": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
+    "autoprefixer": "^9.7.4",
     "babel-loader": "^8.0.6",
     "chai": "^4.2.0",
     "clean-node": "^1.0.0",
     "clean-webpack-plugin": "^3.0.0",
+    "core-js": "^3.6.4",
     "css-loader": "^3.4.2",
     "eslint": "^6.8.0",
     "eslint-config-google": "^0.14.0",
@@ -53,10 +55,15 @@
     "mini-css-extract-plugin": "^0.9.0",
     "mocha": "^7.0.0",
     "node-sass": "^4.13.1",
+    "popper.js": "^1.16.0",
+    "postcss-loader": "^3.0.0",
+    "precss": "^4.0.0",
+    "regenerator-runtime": "^0.13.3",
     "sass": "^1.25.0",
     "sass-loader": "^8.0.2",
     "style-loader": "^1.1.3",
     "uglifyjs-webpack-plugin": "^2.2.0",
+    "webgl-obj-loader": "^2.0.6",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1",
@@ -64,14 +71,8 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
-    "autoprefixer": "^9.7.4",
     "bootstrap": "^4.4.1",
-    "core-js": "^3.6.4",
-    "jquery": "^3.4.1",
-    "popper.js": "^1.16.0",
-    "postcss-loader": "^3.0.0",
-    "precss": "^4.0.0",
-    "regenerator-runtime": "^0.13.3"
+    "jquery": "^3.4.1"
   },
   "eslintConfig": {
     "env": {
