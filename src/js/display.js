@@ -214,7 +214,8 @@ export class Display {
             this.lastY = event.y;
 
             if (this.mouseButtonPressed[0]) {
-                this.camera.turn(-this.xChange, this.yChange);
+                this.terrain.rotate(this.xChange * 0.3);
+                this.camera.turn(0, this.yChange);
             }
         }
     }

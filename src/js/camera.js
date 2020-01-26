@@ -15,7 +15,7 @@ export class Camera {
         this.front = vec3.fromValues(0.0, 0.0, -1.0);
         this.right = vec3.fromValues(1.0, 0.0, 0.0);
         this.turnSpeed = 0.1;
-        this.movementSpeed = 0.0001;
+        this.movementSpeed = 0.00005;
 
         this.update();
     }
