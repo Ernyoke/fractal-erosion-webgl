@@ -47,24 +47,14 @@ export class Display {
         this.initSidebarInputs();
     }
 
-    hookSliderWithValueLabel(slider, valueLabel) {
-        slider.addEventListener('input', (event) => {
-            valueLabel.innerHTML = slider.value;
-        });
-    }
-
     initSidebarInputs() {
-        const roughnessSlider = document.querySelector('#roughness-slider');
-        const roughnessSliderValueLabel = document.querySelector('#roughness-slider-value');
-        if (roughnessSlider && roughnessSliderValueLabel) {
+        const roughnessSlider = this.initSlider('roughness-slider', 'roughness-slider-value');
+        if (roughnessSlider) {
             roughnessSlider.defaultValue = this.roughness;
-            this.hookSliderWithValueLabel(roughnessSlider, roughnessSliderValueLabel);
         }
-        const gridSizeSlider = document.querySelector('#grid-size-slider');
-        const gridSizeSliderValueLabel = document.querySelector('#grid-size-slider-value');
-        if (gridSizeSlider && gridSizeSliderValueLabel) {
+        const gridSizeSlider = this.initSlider('grid-size-slider', 'grid-size-slider-value');
+        if (gridSizeSlider) {
             gridSizeSlider.defaultValue = this.gridSize;
-            this.hookSliderWithValueLabel(gridSizeSlider, gridSizeSliderValueLabel);
         }
         const generateButton = document.querySelector('#generate-button');
         if (generateButton && roughnessSlider && gridSizeSlider) {
@@ -76,11 +66,10 @@ export class Display {
                 });
             });
         }
-        const thermalErosionIterationsSlider = document.querySelector('#thermal-iterations-slider');
-        const thermalErosionIterationsSliderValueLabel = document.querySelector('#thermal-iterations-slider-value');
-        if (thermalErosionIterationsSlider && thermalErosionIterationsSliderValueLabel) {
+        const thermalErosionIterationsSlider =
+            this.initSlider('thermal-iterations-slider', 'thermal-iterations-slider-value');
+        if (thermalErosionIterationsSlider) {
             thermalErosionIterationsSlider.defaultValue = 10;
-            this.hookSliderWithValueLabel(thermalErosionIterationsSlider, thermalErosionIterationsSliderValueLabel);
         }
         const applyThermalErosionButton = document.querySelector('#apply-thermal-erosion-button');
         if (applyThermalErosionButton && thermalErosionIterationsSlider) {
@@ -93,17 +82,15 @@ export class Display {
                     });
             });
         }
-        const hydraulicErosionIterationsSlider = document.querySelector('#hydraulic-iterations-slider');
-        const hydraulicErosionIterationsValueLabel = document.querySelector('#hydraulic-iterations-slider-value');
-        if (hydraulicErosionIterationsSlider && hydraulicErosionIterationsValueLabel) {
+        const hydraulicErosionIterationsSlider =
+            this.initSlider('hydraulic-iterations-slider', 'hydraulic-iterations-slider-value');
+        if (hydraulicErosionIterationsSlider) {
             hydraulicErosionIterationsSlider.defaultValue = 10;
-            this.hookSliderWithValueLabel(hydraulicErosionIterationsSlider, hydraulicErosionIterationsValueLabel);
         }
-        const waterQuantitySlider = document.querySelector('#water-quantity-slider');
-        const waterQuantitySliderValueLabel = document.querySelector('#water-quantity-slider-value');
-        if (waterQuantitySlider && waterQuantitySliderValueLabel) {
+        const waterQuantitySlider =
+            this.initSlider('water-quantity-slider', 'water-quantity-slider-value');
+        if (waterQuantitySlider) {
             waterQuantitySlider.defaultValue = 0.1;
-            this.hookSliderWithValueLabel(waterQuantitySlider, waterQuantitySliderValueLabel);
         }
         const applyHydraulicErosionButton = document.querySelector('#apply-hydraulic-erosion-button');
         if (applyHydraulicErosionButton && hydraulicErosionIterationsSlider && waterQuantitySlider) {
@@ -117,6 +104,18 @@ export class Display {
                     });
             });
         }
+    }
+
+    initSlider(sliderId, sliderValueId) {
+        const slider = document.querySelector(`#${sliderId}`);
+        const sliderValueLabel = document.querySelector(`#${sliderValueId}`);
+        if (slider && sliderValueLabel) {
+            slider.defaultValue = this.roughness;
+            slider.addEventListener('input', (event) => {
+                sliderValueLabel.innerHTML = slider.value;
+            });
+        }
+        return slider;
     }
 
     async loadTerrain() {
