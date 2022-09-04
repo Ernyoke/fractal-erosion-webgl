@@ -1,26 +1,18 @@
 const path = require('path');
-const webpack = require('webpack');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
-    devtool: 'sourcemap',
     mode: 'development',
+    devtool: 'source-map',
     devServer: {
-        contentBase: path.resolve(__dirname, 'build'),
-        compress: true,
-        inline: true,
+        static: {
+            directory: path.resolve(__dirname, 'dist')
+        },
+        port: 3000,
+        open: true,
         hot: true,
-        quiet: false,
-        port: 4200,
-        historyApiFallback: true,
-        stats: {
-            chunks: false,
-            chunkModules: false
-        }
+        compress: true,
+        historyApiFallback: true
     },
-    plugins: [
-        new webpack.NamedModulesPlugin(),
-        new webpack.HotModuleReplacementPlugin()
-    ]
 });
