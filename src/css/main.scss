@@ -15,15 +15,19 @@ canvas {
     position: absolute;
 }
 
-.jumbotron {
+.main-pane {
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+    background-color: #e9ecef;
+    border-radius: .3rem;
     position: absolute;
-    width: 400pt;
+    width: 300pt;
 
     .title {
-        font-size: 2em;
+        font-size: 1.5em;
     }
 
     .group-title {
-        font-size: 1.5em;
+        font-size: 1em;
     }
 }
